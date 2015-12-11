@@ -112,6 +112,13 @@ func Shutdown() {
 	}
 }
 
+func DropCaches() {
+	m.Lock()
+	defer m.Unlock()
+
+	C.vips_cache_drop_all()
+}
+
 // Output to stdout vips collected data. Useful for debugging
 func VipsDebugInfo() {
 	C.im__print_all()
