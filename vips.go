@@ -24,7 +24,7 @@ const HasMagickSupport = int(C.VIPS_MAGICK_SUPPORT) == 1
 const (
 	maxCacheMem  = 100 * 1024 * 1024
 	maxCacheSize = 500
-	maxFiles     = 5
+	//maxFiles     = 5
 )
 
 var (
@@ -86,7 +86,7 @@ func Initialize() {
 	// Set libvips cache params
 	C.vips_cache_set_max_mem(maxCacheMem)
 	C.vips_cache_set_max(maxCacheSize)
-	C.vips_cache_set_max_files(maxFiles)
+	//C.vips_cache_set_max_files(maxFiles)
 
 	// Define a custom thread concurrency limit in libvips (this may generate thread-unsafe issues)
 	// See: https://github.com/jcupitt/libvips/issues/261#issuecomment-92850414
