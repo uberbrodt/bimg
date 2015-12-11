@@ -24,6 +24,7 @@ const HasMagickSupport = int(C.VIPS_MAGICK_SUPPORT) == 1
 const (
 	maxCacheMem  = 100 * 1024 * 1024
 	maxCacheSize = 500
+	maxFiles     = 5
 )
 
 var (
@@ -35,6 +36,7 @@ type VipsMemoryInfo struct {
 	Memory          int64
 	MemoryHighwater int64
 	Allocations     int64
+	OpenFiles       int64
 }
 
 type vipsSaveOptions struct {
@@ -84,6 +86,7 @@ func Initialize() {
 	// Set libvips cache params
 	C.vips_cache_set_max_mem(maxCacheMem)
 	C.vips_cache_set_max(maxCacheSize)
+	C.vips_cache_set_max_files(maxFiles)
 
 	// Define a custom thread concurrency limit in libvips (this may generate thread-unsafe issues)
 	// See: https://github.com/jcupitt/libvips/issues/261#issuecomment-92850414
@@ -130,6 +133,7 @@ func VipsMemory() VipsMemoryInfo {
 		Memory:          int64(C.vips_tracked_get_mem()),
 		MemoryHighwater: int64(C.vips_tracked_get_mem_highwater()),
 		Allocations:     int64(C.vips_tracked_get_allocs()),
+		OpenFiles:       int64(C.vips_tracked_get_files()),
 	}
 }
 
