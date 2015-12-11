@@ -33,10 +33,11 @@ var (
 )
 
 type VipsMemoryInfo struct {
-	Memory          int64
-	MemoryHighwater int64
-	Allocations     int64
-	OpenFiles       int64
+	Memory           int64
+	MemoryHighwater  int64
+	Allocations      int64
+	OpenFiles        int64
+	CachedOperations int64
 }
 
 type vipsSaveOptions struct {
@@ -130,10 +131,11 @@ func VipsDebugInfo() {
 // Get memory info stats from vips (cache size, memory allocs...)
 func VipsMemory() VipsMemoryInfo {
 	return VipsMemoryInfo{
-		Memory:          int64(C.vips_tracked_get_mem()),
-		MemoryHighwater: int64(C.vips_tracked_get_mem_highwater()),
-		Allocations:     int64(C.vips_tracked_get_allocs()),
-		OpenFiles:       int64(C.vips_tracked_get_files()),
+		Memory:           int64(C.vips_tracked_get_mem()),
+		MemoryHighwater:  int64(C.vips_tracked_get_mem_highwater()),
+		Allocations:      int64(C.vips_tracked_get_allocs()),
+		OpenFiles:        int64(C.vips_tracked_get_files()),
+		CachedOperations: int64(C.vips_cache_get_size()),
 	}
 }
 
